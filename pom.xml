@@ -23,6 +23,7 @@
   <modules>
     <module>customer</module>
       <module>fraud</module>
+    <module>eurica-server</module>
   </modules>
 
   <dependencyManagement>
