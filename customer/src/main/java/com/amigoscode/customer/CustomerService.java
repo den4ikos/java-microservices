@@ -2,11 +2,14 @@ package com.amigoscode.customer;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final RestTemplate restTemplate;
+
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -14,6 +17,16 @@ public class CustomerService {
                 .email(request.email())
                 .build();
 
-        customerRepository.save(customer);
+        customerRepository.saveAndFlush(customer);
+
+        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
+                "http://127.0.0.1:9091/api/v1/fraud-check/{customerId}",
+                FraudCheckResponse.class,
+                customer.getId()
+        );
+
+        if (fraudCheckResponse.isFraudster()) {
+            throw new IllegalStateException("FRAUDSTER");
+        }
     }
 }
