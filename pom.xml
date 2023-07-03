@@ -25,6 +25,7 @@
       <module>fraud</module>
     <module>eurica-server</module>
       <module>clients</module>
+      <module>notification</module>
   </modules>
 
   <dependencyManagement>
