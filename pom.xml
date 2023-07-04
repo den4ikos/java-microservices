@@ -27,6 +27,7 @@
       <module>clients</module>
       <module>notification</module>
       <module>apigw</module>
+      <module>amqp</module>
   </modules>
 
   <dependencyManagement>
